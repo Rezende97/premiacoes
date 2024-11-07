@@ -13,6 +13,11 @@
             $this->model = $model;    
         }
 
+        public function createModel($gambler)
+        {
+           return $this->model->create($gambler);
+        }
+
         public function loginModel($authentication)
         {
             echo 'Login Repository';

@@ -4,7 +4,7 @@
 
     interface AuthenticationInterface
     {
-        public function register();
+        public function register($bettingData);
         public function login($authentication);
         public function logout();
         public function forgotPassword();

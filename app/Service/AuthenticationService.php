@@ -18,9 +18,19 @@
          * register user
          * 
         */
-        public function register()
-        {
+        public function register($bettingData)
+        {   
 
+            return $this->model->createModel([
+                "name"         => $bettingData->name,
+                "cpf"          => $bettingData->cpf,
+                "email"        => $bettingData->email,
+                "dateOfBirth"  => $bettingData->dateOfBirth,
+                "password"     => bcrypt($bettingData->password),
+                "telephone"    => $bettingData->telephone,
+                "pix_key"      => $bettingData->pix_key,
+                "profile"      => $bettingData->profile
+            ]);
         }
 
         /**

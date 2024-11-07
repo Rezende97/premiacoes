@@ -2,21 +2,32 @@
 
     namespace App\Http\Controllers\Authentication;
 
-use App\Contracts\AuthenticationInterface;
-use App\Http\Controllers\Controller;
+    use App\Contracts\AuthenticationInterface;
+    use App\Http\Controllers\Controller;
+    use App\Http\Requests\AuthenticationRequest;
+    use App\Http\Requests\RegisterGamblerRequest;
     use Illuminate\Http\Request;
 
     class AuthenticationController extends Controller
     {
-        protected $authentication;
+        protected $gambler;
 
         public function __construct(AuthenticationInterface $authentication)
         {
-            $this->authentication = $authentication;    
+            $this->gambler = $authentication;    
         }
 
-        public function authentication(Request $request)
+        public function authentication(AuthenticationRequest $authenticationRequest)
         {
-            $this->authentication->login($request);
+            $responseAuthentication = $this->gambler->login($authenticationRequest);
+
+            print_r($responseAuthentication);
+        }
+
+        public function registerGambler(RegisterGamblerRequest $registerGamblerRequest)
+        {
+            $responseRegisterGambler = $this->gambler->register($registerGamblerRequest);
+            
+            return response()->json(['status' => 'ok'])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
         }
     }
