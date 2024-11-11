@@ -6,6 +6,6 @@
     {
         public function register($bettingData);
         public function login($authentication);
-        public function logout();
-        public function forgotPassword();
+        public function logout($logoutRequest);
+        public function forgotPassword($cpf);
     }

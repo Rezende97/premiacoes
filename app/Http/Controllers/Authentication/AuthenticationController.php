@@ -5,7 +5,8 @@
     use App\Contracts\AuthenticationInterface;
     use App\Http\Controllers\Controller;
     use App\Http\Requests\AuthenticationRequest;
-    use App\Http\Requests\RegisterGamblerRequest;
+use App\Http\Requests\LogoutRequest;
+use App\Http\Requests\RegisterGamblerRequest;
     use Illuminate\Http\Request;
 
     class AuthenticationController extends Controller
@@ -19,15 +20,20 @@
 
         public function authentication(AuthenticationRequest $authenticationRequest)
         {
-            $responseAuthentication = $this->gambler->login($authenticationRequest);
-
-            print_r($responseAuthentication);
+            return $this->gambler->login($authenticationRequest);
         }
 
         public function registerGambler(RegisterGamblerRequest $registerGamblerRequest)
         {
             $responseRegisterGambler = $this->gambler->register($registerGamblerRequest);
             
-            return response()->json(['status' => 'ok'])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+            $response = $responseRegisterGambler ? 'Usuário criado com sucesso' : 'Erro ao criar o usuário';
+
+            return response()->json(['response' => $responseRegisterGambler, 'message' => $response])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        }
+
+        public function logoutGamber(LogoutRequest $logoutRequest)
+        {
+            return $this->gambler->logout($logoutRequest);
         }
     }

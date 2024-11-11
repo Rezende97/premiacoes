@@ -18,7 +18,7 @@
            return $this->model->create($gambler);
         }
 
-        public function loginModel($authentication)
+        public function logoutModel($authentication)
         {
             echo 'Login Repository';
         }

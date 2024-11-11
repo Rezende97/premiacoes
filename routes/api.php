@@ -17,4 +17,13 @@ use Illuminate\Support\Facades\Route;
 
 // endpoint de autenticação
 Route::post('/authentication', [AuthenticationController::class, 'authentication'])->name('gambler.login');
-Route::post('/registerGambler', [AuthenticationController::class, 'registerGambler'])->name('gambler.registerGambler');
+
+Route::prefix('/')->middleware('auth:sanctum')->group(function () {
+    Route::post('/registerGambler', [AuthenticationController::class, 'registerGambler'])->name('gambler.registerGambler');
+    Route::post('/logout', [AuthenticationController::class, 'logoutGamber'])->name('gambler.logoutGamber');
+});
+
+// Route::prefix('/sorteio')->middleware('auth:sanctum')->group(function () {
+
+// });
+

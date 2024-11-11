@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AuthenticationRequest extends FormRequest
+class LogoutRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,7 @@ class AuthenticationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cpf'       => ['required', 'max:14', 'string'],
-            'password'  => ['required', 'max:250', 'string'],
+            'id' => ['required']
         ];
     }
 }
