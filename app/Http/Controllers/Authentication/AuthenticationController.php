@@ -6,6 +6,8 @@
     use App\Http\Controllers\Controller;
     use App\Http\Requests\AuthenticationRequest;
 use App\Http\Requests\LogoutRequest;
+use App\Http\Requests\newPasswordRequest;
+use App\Http\Requests\RecoverPasswordRequest;
 use App\Http\Requests\RegisterGamblerRequest;
     use Illuminate\Http\Request;
 
@@ -35,5 +37,15 @@ use App\Http\Requests\RegisterGamblerRequest;
         public function logoutGamber(LogoutRequest $logoutRequest)
         {
             return $this->gambler->logout($logoutRequest);
+        }
+
+        public function recoverPasswordGamber(RecoverPasswordRequest $recoverPasswordRequest)
+        {
+            return $this->gambler->recoverPassword($recoverPasswordRequest);
+        }
+
+        public function newPasswordGamber(newPasswordRequest $newPasswordRequest)
+        {
+            return $this->gambler->newPassword($newPasswordRequest);
         }
     }

@@ -18,12 +18,16 @@ use Illuminate\Support\Facades\Route;
 // endpoint de autenticação
 Route::post('/authentication', [AuthenticationController::class, 'authentication'])->name('gambler.login');
 
+// endpoint de criar usuário
+Route::post('/registerGambler', [AuthenticationController::class, 'registerGambler'])->name('gambler.registerGambler');
+
+// endpoint recuperar senha
+Route::post('/recoverPasswordGamber', [AuthenticationController::class, 'recoverPasswordGamber'])->name('gambler.recoverPasswordGamber');
+
+// endpoint cadastrar nova senha
+Route::put('/newPasswordGamber', [AuthenticationController::class, 'newPasswordGamber'])->name('gambler.newPasswordGamber');
+
+// endpoints com camada de segurança de middleware
 Route::prefix('/')->middleware('auth:sanctum')->group(function () {
-    Route::post('/registerGambler', [AuthenticationController::class, 'registerGambler'])->name('gambler.registerGambler');
     Route::post('/logout', [AuthenticationController::class, 'logoutGamber'])->name('gambler.logoutGamber');
 });
-
-// Route::prefix('/sorteio')->middleware('auth:sanctum')->group(function () {
-
-// });
-

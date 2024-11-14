@@ -4,7 +4,7 @@
 
     use App\Contracts\AuthenticationInterface;
     use App\Repository\AuthenticationRepository;
-use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Auth;
 
     class AuthenticationService implements AuthenticationInterface
     {
@@ -57,12 +57,10 @@ use Illuminate\Support\Facades\Auth;
                 $token = $authentication->user()->createToken('auth_token')->plainTextToken;
 
                 return response()->json(
-                                            [
-                                                    'response' => true, 
-                                                    'message' =>  
+                                            ['response' => true, 'message' =>  
                                                 [
                                                     'auth'      => 'Usuário logado com sucesso', 
-                                                    'token'     => 'Bearer '.$token,
+                                                    'token'     => $token,
                                                     'id'        => $authentication->user()->id,
                                                     'name'      => $authentication->user()->name,
                                                     'profile'   => $authentication->user()->profile
@@ -84,15 +82,15 @@ use Illuminate\Support\Facades\Auth;
         */
         public function logout($logoutRequest)
         {
-            $token = $logoutRequest->user()->tokens()->find($logoutRequest->id);
-        
-            if ($token) {
+            try {
+                
+                $this->model->logoutModel($logoutRequest->idToken);
+                
+                return response()->json(['response' => true, 'message' => 'Deslogado com sucesso'])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+            } catch (\Throwable $th) {
 
-                $token->delete();
-
-                return response()->json(['response' => true, 'message' => 'Logged out successfully'])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
-            } else {
-                return response()->json(['response' => false, 'message' => 'Token not found'])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+                return response()->json(['response' => false, 'message' => 'Token inativo'])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+            
             }
         }
 
@@ -101,8 +99,40 @@ use Illuminate\Support\Facades\Auth;
          * recover password
          * 
         */
-        public function forgotPassword($cpf)
+        public function recoverPassword($recoverPasswordRequest)
         {
+            try {
+                
+                $user = $this->model->recoverPassword($recoverPasswordRequest->cpf);
 
+                return response()->json(['response' => true, 'message' => ['idUser' => $user[0]['id']]])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+
+            } catch (\Throwable $th) {
+                
+                return response()->json(['response' => false, 'message' => 'Usuário não encontrado'])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+                
+            }
+            
+        }
+
+        /**
+         * 
+         * 
+         * New Password
+         * 
+         */
+        public function newPassword($newPasswordRequest)
+        {
+            try {
+                
+                $user = $this->model->newPasswordModel($newPasswordRequest->idUSer, bcrypt($newPasswordRequest->password));
+
+                return response()->json(['response' => true, 'message' => 'Nova senha cadastrada com sucesso'])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+
+            } catch (\Throwable $th) {
+                
+                return response()->json(['response' => false, 'message' => 'Erro ao cadastrar a nova senha'])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+                
+            }
         }
     }
