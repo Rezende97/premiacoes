@@ -5,4 +5,5 @@
     interface AwardsInterface
     {
         public function registerPrize($prizeInformation);
+        public function updatePrize($updatePrizeInformation);
     }

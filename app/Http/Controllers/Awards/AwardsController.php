@@ -4,6 +4,8 @@
 
     use App\Contracts\AwardsInterface;
     use App\Http\Controllers\Controller;
+    use App\Http\Requests\PrizeRequest;
+    use App\Http\Requests\UpdatePrizeRequest;
     use Illuminate\Http\Request;
 
     class AwardsController extends Controller
@@ -15,8 +17,13 @@
             $this->award = $award;    
         }
 
-        public function registerPrizes(Request $request)
+        public function registerPrizes(PrizeRequest $prizeRequest)
         {
-            return $this->award->registerPrize($prizeInformation);
+            return $this->award->registerPrize($prizeRequest);
+        }
+
+        public function update(Request $updatePrizeRequest)
+        {
+            return $this->award->updatePrize($updatePrizeRequest);
         }
     }

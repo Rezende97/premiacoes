@@ -32,4 +32,5 @@ Route::put('/newPasswordGamber', [AuthenticationController::class, 'newPasswordG
 Route::prefix('/')->middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthenticationController::class, 'logoutGamber'])->name('gambler.logoutGamber');
     Route::post('/registerPrize', [AwardsController::class, 'registerPrizes'])->name('award.registerPrize');
+    Route::put('/updatePrize', [AwardsController::class, 'update'])->name('award.updatePrize');
 });
