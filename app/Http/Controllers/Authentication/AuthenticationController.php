@@ -5,10 +5,10 @@
     use App\Contracts\AuthenticationInterface;
     use App\Http\Controllers\Controller;
     use App\Http\Requests\AuthenticationRequest;
-use App\Http\Requests\LogoutRequest;
-use App\Http\Requests\newPasswordRequest;
-use App\Http\Requests\RecoverPasswordRequest;
-use App\Http\Requests\RegisterGamblerRequest;
+    use App\Http\Requests\LogoutRequest;
+    use App\Http\Requests\newPasswordRequest;
+    use App\Http\Requests\RecoverPasswordRequest;
+    use App\Http\Requests\RegisterGamblerRequest;
     use Illuminate\Http\Request;
 
     class AuthenticationController extends Controller
