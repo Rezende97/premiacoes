@@ -14,6 +14,7 @@
         {
             $this->model = $model;
         }
+        
         /**
          * 
          * register user
