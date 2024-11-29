@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id'); // numero usuario 
             $table->unsignedBigInteger('award_id'); // numero premio 
-            $table->integer('numberPurchased'); // numero comprado 
+            $table->string('numberPurchased'); // numero comprado 
             
             $table->foreign('user_id')
                     ->references('id') // Referencia a coluna 'id' da tabela 'users'

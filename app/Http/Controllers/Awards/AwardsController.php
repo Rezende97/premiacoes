@@ -4,7 +4,8 @@
 
     use App\Contracts\AwardsInterface;
     use App\Http\Controllers\Controller;
-    use App\Http\Requests\PrizeRequest;
+use App\Http\Requests\NumberGamblerPrizeRequest;
+use App\Http\Requests\PrizeRequest;
     use App\Http\Requests\UpdatePrizeRequest;
     use Illuminate\Http\Request;
 
@@ -25,5 +26,10 @@
         public function update(Request $updatePrizeRequest)
         {
             return $this->award->updatePrize($updatePrizeRequest);
+        }
+
+        public function getNumberGamblerPrize(NumberGamblerPrizeRequest $idPrize)
+        {
+            return $this->award->numberGamblerPrize($idPrize);
         }
     }

@@ -4,14 +4,18 @@
 
     use App\Contracts\AwardsInterface;
     use App\Repository\AwardsInRepository;
-    use Illuminate\Support\Facades\Auth;
+use App\Repository\prizeNumbersPurchasedRepository;
+use Illuminate\Support\Facades\Auth;
 
     class AwardsService implements AwardsInterface
     {
         protected $awardsInRepository;
-        public function __construct(AwardsInRepository $awardsInRepository)
+        protected $prizeNumbersPurchasedRepository;
+
+        public function __construct(AwardsInRepository $awardsInRepository, prizeNumbersPurchasedRepository $prizeNumbersPurchasedRepository)
         {
-            $this->awardsInRepository = $awardsInRepository;
+            $this->awardsInRepository              = $awardsInRepository;
+            $this->prizeNumbersPurchasedRepository = $prizeNumbersPurchasedRepository;
         }
 
         /**
@@ -82,6 +86,36 @@
                 return response()->json(['response' => false, 
                                                 'message' => 'Erro ao atualizar a Premiação']
                                         )->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+            }
+        }
+
+        public function numberGamblerPrize($idAward)
+        {
+            try {
+
+                $numbers = $this->prizeNumbersPurchasedRepository->numberUserAward($idAward["idAward"]);
+                
+                if ($numbers->isEmpty()) return response()->json(  ['response' => true, 'data' => [], 'message' => 'Aproveite a premiação'] )->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+                
+                $numberUser = [];
+
+                foreach ($numbers as $key => $number) {
+
+                    array_push($numberUser, [
+                        'user'      =>  $number->user->name,
+                        'number'    =>  $number->numberPurchased
+                    ]);
+
+                }
+
+                return response()->json(  ['response' => true, 'data' => $numberUser, 'message' => 'Aproveite a premiação'] )->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+
+            } catch (\Throwable $th) {
+
+                return response()->json(['response' => false, 
+                                                'message' => 'Erro ao encontrar os números da Premiação']
+                                        )->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+
             }
         }
     }
