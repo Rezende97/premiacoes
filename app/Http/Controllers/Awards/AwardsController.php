@@ -32,4 +32,10 @@ use App\Http\Requests\PrizeRequest;
         {
             return $this->award->numberGamblerPrize($idPrize);
         }
+
+        public function getPrizeAvailable()
+        {
+            return $this->award->listPrizeAvailable();
+        }
+        
     }

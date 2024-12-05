@@ -31,6 +31,9 @@ Route::put('/newPasswordGamber', [AuthenticationController::class, 'newPasswordG
 // endpoint que busca os numeros ja comprado ou reservado dos apostadores
 Route::get('numberGambler', [AwardsController::class, 'getNumberGamblerPrize'])->name('award.numberGamblerPrize');
 
+// endpoint listar todas prêmios disponiveis
+Route::get('prizeAvailable', [AwardsController::class, 'getPrizeAvailable'])->name('award.prizeAvailable');
+
 // endpoints com camada de segurança de middleware
 Route::prefix('/')->middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthenticationController::class, 'logoutGamber'])->name('gambler.logoutGamber');

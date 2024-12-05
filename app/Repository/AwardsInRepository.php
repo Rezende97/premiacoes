@@ -21,4 +21,9 @@
         {
             return $this->model->where('id', $id)->update($award);
         }
+
+        public function awardAvailable()
+        {
+            return $this->model->where('active', 1)->get();
+        }
     }

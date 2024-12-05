@@ -6,6 +6,7 @@
     use App\Repository\AwardsInRepository;
 use App\Repository\prizeNumbersPurchasedRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
     class AwardsService implements AwardsInterface
     {
@@ -116,6 +117,34 @@ use Illuminate\Support\Facades\Auth;
                                                 'message' => 'Erro ao encontrar os números da Premiação']
                                         )->setEncodingOptions(JSON_UNESCAPED_UNICODE);
 
+            }
+        }
+
+        public function listPrizeAvailable()
+        {
+            try {
+
+                $available = $this->awardsInRepository->awardAvailable();
+                
+                if($available->isEmpty()) return response()->json(['response' => true, 'data' => [], 'message' => 'Sem premiações no momento'] )->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+
+                $data = collect($available)->map(function ($item) {
+
+                    $imageUrl = Storage::url($item['file_path']);
+
+                    return [
+                        'imagePrize'    => $imageUrl,
+                        'description'   => $item['descriptionAward'],
+                        'value'         => $item['valueNumberPrize']
+                    ];
+                });
+
+                return response()->json(['response' => true, 'data' => $data, 'message' => 'Escolha o prêmio ideal para você'] )->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+
+            } catch (\Throwable $th) {
+                return response()->json(['response' => false, 
+                                                'message' => 'Erro ao encontrar as premiações disponíveis']
+                                        )->setEncodingOptions(JSON_UNESCAPED_UNICODE);
             }
         }
     }
